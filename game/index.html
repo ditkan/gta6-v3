@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Port Azura: Heat — an open-world crime game</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stage">
+  <canvas id="game-canvas" width="960" height="540"></canvas>
+
+  <!-- Heads-up display, drawn by src/hud.js -->
+  <div id="hud" class="hidden">
+    <div id="hud-vitals">
+      <div class="bar-row"><span class="bar-label">HP</span><div class="bar"><div id="bar-health"></div></div></div>
+      <div class="bar-row"><span class="bar-label">AR</span><div class="bar"><div id="bar-armour"></div></div></div>
+      <div id="hud-district">Old Market</div>
+    </div>
+    <div id="hud-top-right">
+      <div id="hud-cash">$0</div>
+      <div id="hud-stars"></div>
+      <div id="hud-clock">12:00</div>
+    </div>
+    <div id="hud-banner" class="hidden">
+      <div id="banner-title"></div>
+      <div id="banner-text"></div>
+    </div>
+    <div id="hud-weapon" class="hidden">
+      <div id="weapon-name">PISTOL</div>
+      <div id="weapon-ammo">12 / 48</div>
+    </div>
+    <div id="hud-prompt" class="hidden"></div>
+    <div id="hud-dialogue" class="hidden">
+      <div id="dialogue-name"></div>
+      <div id="dialogue-text"></div>
+      <div id="dialogue-hint">ENTER ▸</div>
+    </div>
+    <canvas id="minimap" width="184" height="184"></canvas>
+    <div id="hud-busted" class="hidden">BUSTED</div>
+    <div id="hud-wasted" class="hidden">WASTED</div>
+  </div>
+
+  <!-- Start screen -->
+  <div id="screen-start" class="screen">
+    <h1 class="game-title">PORT AZURA</h1>
+    <div class="game-subtitle">— HEAT —</div>
+    <p class="tagline">Six jobs. One city. Five stars if you're careless.</p>
+    <button id="btn-new-game" class="menu-btn">NEW GAME</button>
+    <button id="btn-continue" class="menu-btn hidden">CONTINUE</button>
+    <div class="controls-box">
+      <div><b>WASD / Arrows</b> move &amp; drive</div>
+      <div><b>Shift</b> run &nbsp; <b>Space</b> handbrake</div>
+      <div><b>F / E</b> enter car · use place</div>
+      <div><b>Mouse</b> aim · <b>Click</b> shoot / punch</div>
+      <div><b>R</b> reload &nbsp; <b>P</b> pause &nbsp; <b>M</b> mute</div>
+    </div>
+    <p class="fineprint">An original open-world crime game in vanilla JavaScript. Headphones on.</p>
+  </div>
+
+  <!-- Pause -->
+  <div id="screen-pause" class="screen hidden">
+    <h2 class="screen-title">PAUSED</h2>
+    <button id="btn-resume" class="menu-btn">RESUME</button>
+    <button id="btn-restart" class="menu-btn">RESTART DAY ONE</button>
+    <div id="pause-stats" class="controls-box"></div>
+  </div>
+
+  <!-- Game over -->
+  <div id="screen-over" class="screen hidden">
+    <h2 id="over-title" class="screen-title">WASTED</h2>
+    <p id="over-text" class="tagline"></p>
+    <button id="btn-again" class="menu-btn">BACK ON THE STREET</button>
+  </div>
+
+  <!-- Mission complete -->
+  <div id="screen-complete" class="screen hidden">
+    <h2 class="screen-title gold">JOB DONE</h2>
+    <p id="complete-text" class="tagline"></p>
+    <button id="btn-continue-play" class="menu-btn">KEEP PLAYING</button>
+  </div>
+</div>
+
+<script src="src/util.js"></script>
+<script src="src/city.js"></script>
+<script src="src/audio.js"></script>
+<script src="src/save.js"></script>
+<script src="src/vehicles.js"></script>
+<script src="src/peds.js"></script>
+<script src="src/police.js"></script>
+<script src="src/combat.js"></script>
+<script src="src/missions.js"></script>
+<script src="src/hud.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+/* Port Azura: Heat — page, HUD and menu styling. The world itself is canvas-drawn;
+   everything here is chrome: the frame, the HUD widgets and the screens. */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #10131c;
+  color: #f4f1e8;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  overflow: hidden;
+}
+
+#stage {
+  position: relative;
+  width: 960px;
+  height: 540px;
+  margin: 12px auto;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #000;
+}
+
+#game-canvas { display: block; width: 960px; height: 540px; }
+
+.hidden { display: none !important; }
+
+/* ---------- HUD ---------- */
+
+#hud { position: absolute; inset: 0; pointer-events: none; }
+
+#hud-vitals { position: absolute; left: 14px; top: 12px; width: 190px; }
+
+.bar-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+
+.bar-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  width: 20px;
+  text-shadow: 0 1px 2px #000;
+}
+
+.bar {
+  flex: 1;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#bar-health { height: 100%; width: 100%; background: linear-gradient(#ff7a6b, #d43a2a); transition: width 0.15s; }
+#bar-armour { height: 100%; width: 0%; background: linear-gradient(#8fd0ff, #2a7ad4); transition: width 0.15s; }
+
+#hud-district {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffd98a;
+  text-shadow: 0 1px 3px #000;
+}
+
+#hud-top-right { position: absolute; right: 14px; top: 10px; text-align: right; }
+
+#hud-cash {
+  font-size: 24px;
+  font-weight: 800;
+  color: #9be15d;
+  text-shadow: 0 2px 4px #000;
+  letter-spacing: 1px;
+}
+
+#hud-stars { font-size: 20px; letter-spacing: 3px; color: #ffc93c; text-shadow: 0 1px 3px #000; min-height: 24px; }
+#hud-stars .off { color: rgba(255, 255, 255, 0.25); }
+
+#hud-clock { font-size: 12px; color: #cfd8e3; text-shadow: 0 1px 2px #000; letter-spacing: 1px; }
+
+#hud-banner {
+  position: absolute;
+  top: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  background: rgba(8, 10, 16, 0.72);
+  border: 1px solid rgba(255, 217, 138, 0.5);
+  border-radius: 6px;
+  padding: 8px 22px;
+  max-width: 560px;
+}
+
+#banner-title { font-size: 17px; font-weight: 800; letter-spacing: 2px; color: #ffd98a; }
+#banner-text { font-size: 13px; color: #f4f1e8; margin-top: 2px; }
+#banner-text .timer { color: #ff9d5c; font-weight: 700; }
+
+#hud-weapon {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  text-align: right;
+  background: rgba(8, 10, 16, 0.55);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+#weapon-name { font-size: 11px; letter-spacing: 2px; color: #cfd8e3; }
+#weapon-ammo { font-size: 20px; font-weight: 800; text-shadow: 0 1px 3px #000; }
+#weapon-ammo.low { color: #ff7a6b; }
+
+#hud-prompt {
+  position: absolute;
+  left: 50%;
+  bottom: 108px;
+  transform: translateX(-50%);
+  background: rgba(8, 10, 16, 0.75);
+  border-radius: 14px;
+  padding: 5px 16px;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+#hud-dialogue {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  width: 620px;
+  background: rgba(8, 10, 16, 0.85);
+  border-left: 4px solid #ffd98a;
+  border-radius: 4px;
+  padding: 10px 16px 8px;
+}
+
+#dialogue-name { font-size: 12px; font-weight: 800; letter-spacing: 2px; color: #ffd98a; }
+#dialogue-text { font-size: 15px; line-height: 1.35; margin-top: 2px; }
+#dialogue-hint { font-size: 10px; color: #8fa3b8; text-align: right; letter-spacing: 1px; }
+
+#minimap {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: rgba(10, 14, 20, 0.8);
+}
+
+#hud-busted, #hud-wasted {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  font-weight: 900;
+  letter-spacing: 12px;
+}
+
+#hud-busted { color: #7db4ff; background: rgba(20, 40, 90, 0.35); }
+#hud-wasted { color: #ff5c47; background: rgba(90, 10, 0, 0.35); }
+
+/* ---------- Screens ---------- */
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(16, 22, 38, 0.88), rgba(30, 16, 24, 0.92));
+  text-align: center;
+  z-index: 5;
+}
+
+.game-title {
+  font-size: 72px;
+  margin: 0;
+  font-weight: 900;
+  letter-spacing: 6px;
+  background: linear-gradient(180deg, #ffe9a8, #ff9d5c 55%, #e2543e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+}
+
+.game-subtitle { font-size: 26px; letter-spacing: 14px; color: #ffd98a; margin-top: 2px; }
+
+.screen-title { font-size: 44px; letter-spacing: 8px; margin: 0 0 10px; }
+.screen-title.gold { color: #ffd98a; }
+
+.tagline { font-size: 16px; color: #cfd8e3; margin: 12px 0 20px; }
+
+.menu-btn {
+  pointer-events: auto;
+  display: block;
+  width: 280px;
+  margin: 6px 0;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #10131c;
+  background: linear-gradient(180deg, #ffd98a, #f0a24a);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.menu-btn:hover { filter: brightness(1.1); }
+
+.controls-box {
+  margin-top: 22px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #aeb9c6;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 10px 22px;
+  border-radius: 6px;
+}
+
+.controls-box b { color: #f4f1e8; }
+.fineprint { font-size: 11px; color: #7e8b9a; margin-top: 18px; }
